@@ -75,14 +75,21 @@ int main()
   cout << "------------------------------------" << endl;
   cout << "Choississez le schemas en temps  : " << endl;
   cout << "1) euler explicite"<< endl;
-  cout << "2) runge kutta" << endl;
-  cout << "3) adam " << endl;
+  cout << "2) runge kutta_3" << endl;
+  cout << "3) runge kutta_4" << endl;
+  cout << "4) adam " << endl;
   cin>>userChoiceShema;
   TimeScheme* time_scheme;
 
   switch(userChoiceShema){
   case(1):
     time_scheme = new EulerExp();
+    break;
+  case(2):
+    time_scheme = new Runge3();
+    break;
+  case(3):
+    time_scheme = new Runge4();
     break;
   }
   

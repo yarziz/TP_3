@@ -35,6 +35,18 @@ class EulerExp : public TimeScheme
   void Advance();
 };
 
+class Runge3 : public TimeScheme
+{
+ public:
+  void Advance();
+};
+
+class Runge4 : public TimeScheme
+{
+ public:
+  void Advance();
+};
+
 
 
 

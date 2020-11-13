@@ -59,6 +59,33 @@ void EulerExp::Advance()
   _t += _dt;
 }
 
+void Runge3::Advance()
+{
+  _sys->BuildF(_t, _sol);
+  VectorXd a=_sys->GetF();
+  _sys->BuildF(_t+_dt/2., _sol+(_dt/2.)*a);
+  VectorXd b=_sys->GetF();
+  _sys->BuildF(_t+_dt, _sol-_dt*a+2*_dt*b);
+  VectorXd c=_sys->GetF();
+  _sol += (_dt/6.)*(a+4*b+c);
+  _t += _dt;
+}
+
+void Runge4::Advance()
+{
+  _sys->BuildF(_t, _sol);
+  VectorXd a=_sys->GetF();
+  _sys->BuildF(_t+_dt/2., _sol+(_dt/2.)*a);
+  VectorXd b=_sys->GetF();
+  _sys->BuildF(_t+_dt/2., _sol+(_dt/2.)*b);
+  VectorXd c=_sys->GetF();
+  _sys->BuildF(_t+_dt, _sol+_dt*c);
+  VectorXd d=_sys->GetF();
+  _sol += (_dt/6.)*(a+2*b+2*c+d);
+  _t += _dt;
+}
+
+
 
 #define _TIME_SCHEME_CPP
 #endif
