@@ -15,7 +15,7 @@ class TimeScheme
     // Enregistre la solution un fichier
     void SaveSolution();
     // Une étape du schéma en temps
-    virtual void Advance() = 0;
+    virtual void Advance(int n) = 0;
     // Permet de récupérer _sol
     const Eigen::VectorXd & GetIterateSolution() const;
 
@@ -32,19 +32,29 @@ class TimeScheme
 class EulerExp : public TimeScheme
 {
  public:
-  void Advance();
+  void Advance(int n);
 };
 
 class Runge3 : public TimeScheme
 {
  public:
-  void Advance();
+  void Advance(int n);
 };
 
 class Runge4 : public TimeScheme
 {
  public:
-  void Advance();
+  void Advance(int n);
+};
+
+
+class Adam : public TimeScheme
+{ 
+ public:
+  Eigen::VectorXd _a;
+  Eigen::VectorXd _b;
+  //Adam(Eigen::VectorXd a, Eigen::VectorXd b);
+  void Advance(int n);
 };
 
 

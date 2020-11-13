@@ -91,6 +91,10 @@ int main()
   case(3):
     time_scheme = new Runge4();
     break;
+  case(4):
+    time_scheme = new Adam();
+    break;
+    
   }
   
   time_scheme->Initialize(t0, dt, sol0, results, sys); // Initialisation
@@ -98,7 +102,7 @@ int main()
 
   for (int n = 0; n < nb_iterations; n++)
     { // Boucle en temps
-      time_scheme->Advance();
+      time_scheme->Advance(n);
       time_scheme->SaveSolution();
     }
 
@@ -109,7 +113,7 @@ int main()
       cout << "Erreur = " << error<< " pour dt = " << dt << endl;
       time_scheme->Initialize(t0, dt/2., sol0, results, sys);
       for (int n = 0; n < nb_iterations*2; n++){
-	time_scheme->Advance();
+	time_scheme->Advance(n);
       }
       approxSol = time_scheme->GetIterateSolution(); // Temps final
       double error2 = ((approxSol-exactSol).array().abs()).sum();

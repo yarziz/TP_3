@@ -52,14 +52,14 @@ const VectorXd & TimeScheme::GetIterateSolution() const
 
 // Schéma en temps par défaut : ici Euler Explicite
 // Avancer d'un pas de temps
-void EulerExp::Advance()
+void EulerExp::Advance(int n)
 {
   _sys->BuildF(_t, _sol);
   _sol += _dt*_sys->GetF();
   _t += _dt;
 }
 
-void Runge3::Advance()
+void Runge3::Advance(int n)
 {
   _sys->BuildF(_t, _sol);
   VectorXd a=_sys->GetF();
@@ -71,7 +71,7 @@ void Runge3::Advance()
   _t += _dt;
 }
 
-void Runge4::Advance()
+void Runge4::Advance(int n)
 {
   _sys->BuildF(_t, _sol);
   VectorXd a=_sys->GetF();
@@ -85,6 +85,40 @@ void Runge4::Advance()
   _t += _dt;
 }
 
+
+void Adam::Advance(int n){
+  if(n==0){
+     _sys->BuildF(_t, _sol);
+     VectorXd a=_sys->GetF();
+     _sys->BuildF(_t+_dt/2., _sol+(_dt/2.)*a);
+     VectorXd b=_sys->GetF();
+     _sys->BuildF(_t+_dt, _sol-_dt*a+2*_dt*b);
+     VectorXd c=_sys->GetF();
+     _sol += (_dt/6.)*(a+4*b+c);
+     _a=a;
+     _t += _dt;
+    }
+  
+   if(n==1){
+     _sys->BuildF(_t, _sol);
+     VectorXd a=_sys->GetF();
+     _sys->BuildF(_t+_dt/2., _sol+(_dt/2.)*a);
+     VectorXd b=_sys->GetF();
+     _sys->BuildF(_t+_dt, _sol-_dt*a+2*_dt*b);
+     VectorXd c=_sys->GetF();
+     _sol += (_dt/6.)*(a+4*b+c);
+     _b=a;
+     _t += _dt;
+   }
+
+   if(n>1){
+     _sys->BuildF(_t, _sol);
+     _sol += (_dt/12.)*(23*_sys->GetF()-16*_b+5*_a);
+     _a=_b;
+     _b=_sys->GetF();
+     _t += _dt; 
+     }
+}
 
 
 #define _TIME_SCHEME_CPP
