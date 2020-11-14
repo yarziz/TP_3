@@ -9,7 +9,7 @@ using namespace Eigen;
 
 int main()
 {
-  double t0(0.), tfinal(4.), dt(0.0000001); // temps initial, final, pas de temps
+  double t0(0.), tfinal(5.), dt(0.001); // temps initial, final, pas de temps
   int nb_iterations = int(ceil(tfinal/dt)); // Définition du nombre d’itérations
   dt = tfinal / nb_iterations; // Recalcul de dt
   string results; // nom du fichier résultat
@@ -94,9 +94,9 @@ int main()
       sol0(1)=z_0;
       g=9.81;
       tho=m/(k*1.);
-      //exactSol.resize(1);
-      //exactSol(0) =g*tho*(exp(-tfinal/tho)-1);
-      //exactsol(1)=exacteSol(0)
+      exactSol.resize(2);
+      exactSol(0) =g*tho*(exp(-tfinal/tho)-1);
+      exactSol(1)=-exactSol(0)*tho-g*tho*tfinal+z_0;
       results = "chute";
       break;
     default:

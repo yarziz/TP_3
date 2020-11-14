@@ -125,7 +125,7 @@ void Chutequa::BuildF(const double t, const VectorXd & sol)
 {
   double g=9.81;
   _f.resize(2);
-  _f[0]=-g-((_k/_m)*sol[0]*sol[0]);
+  _f[0]=-g-(_k/_m)*sol[0]*sol[0];
   _f[1]=sol[0];
 }
 
