@@ -85,6 +85,16 @@ public:
   void BuildF(const double t, const Eigen::VectorXd & sol); //f(X,t) = X
 };
 
+class Chutequa : public OdeSystem
+{
+private:
+  double _m;
+  double _k;
+public:
+  Chutequa(double m, double k);
+  void BuildF(const double t, const Eigen::VectorXd & sol); //f(X,t) = X
+};
+
 
 #define _ODE_SYSTEM_H
 #endif

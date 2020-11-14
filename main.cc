@@ -9,7 +9,7 @@ using namespace Eigen;
 
 int main()
 {
-  double t0(0.), tfinal(5.), dt(0.005); // temps initial, final, pas de temps
+  double t0(0.), tfinal(4.), dt(0.0000001); // temps initial, final, pas de temps
   int nb_iterations = int(ceil(tfinal/dt)); // Définition du nombre d’itérations
   dt = tfinal / nb_iterations; // Recalcul de dt
   string results; // nom du fichier résultat
@@ -77,14 +77,26 @@ int main()
       double v_0;
       cout<<"donnez la donnee initial v_0"<<endl;
       cin >> v_0;
+      double z_0;
+      cout<<"donnez la donnee initial z_0"<<endl;
+      cin >> z_0;
       double tho;
-      sys=new Chute(m,k);
-      sol0.resize(1);
+      cout<<"1 pour linaire 2 pour quadratique"<<endl;
+      int chute_choix;
+      cin>>chute_choix;
+      if(chute_choix==1){
+	sys=new Chute(m,k);
+      }else{
+	sys=new Chutequa(m,k);
+      }
+      sol0.resize(2);
       sol0(0)=v_0;
+      sol0(1)=z_0;
       g=9.81;
-      tho=m/k;
-      exactSol.resize(1);
-      exactSol(0) =g*tho*(exp(-tfinal/tho)-1)+v_0*exp(-tfinal/tho);
+      tho=m/(k*1.);
+      //exactSol.resize(1);
+      //exactSol(0) =g*tho*(exp(-tfinal/tho)-1);
+      //exactsol(1)=exacteSol(0)
       results = "chute";
       break;
     default:
@@ -127,7 +139,7 @@ int main()
       time_scheme->SaveSolution();
     }
 
-  if ((userChoiceSys == 1) || (userChoiceSys == 2) || (userChoiceSys == 3)||(userChoiceSys == 6))
+  if ((userChoiceSys == 1) || (userChoiceSys == 2) || (userChoiceSys == 3)/*|| (userChoiceSys == 6)*/)
     {
       VectorXd approxSol = time_scheme->GetIterateSolution(); // Temps final
       double error = ((approxSol-exactSol).array().abs()).sum();
