@@ -23,6 +23,7 @@ int main()
   cout << "3) x’ = x^2 t" << endl;
   cout << "4) x’ = x(a-by) et y' =y(cx-d)" << endl;
   cout << "5) pondule" << endl;
+  cout << "6) Chute" << endl;
   cin >> userChoiceSys;
   OdeSystem* sys(0);
   switch(userChoiceSys)
@@ -65,7 +66,27 @@ int main()
       sol0.resize(2); sol0(0) = 0;sol0(1)=M_PI;
       results = "pendule.txt";
       break;
-   
+    case 6:
+      double g;
+      double m;
+      cout<<"donnez la masse m"<<endl;
+      cin >> m;
+      double k;
+      cout<<"donnez la raideur k "<<endl;
+      cin >> k;
+      double v_0;
+      cout<<"donnez la donnee initial v_0"<<endl;
+      cin >> v_0;
+      double tho;
+      sys=new Chute(m,k);
+      sol0.resize(1);
+      sol0(0)=v_0;
+      g=9.81;
+      tho=m/k;
+      exactSol.resize(1);
+      exactSol(0) =g*tho*(exp(-tfinal/tho)-1)+v_0*exp(-tfinal/tho);
+      results = "chute";
+      break;
     default:
       cout << "Ce choix n’est pas possible ! Veuillez recommencer !" << endl;
       exit(0);
@@ -106,7 +127,7 @@ int main()
       time_scheme->SaveSolution();
     }
 
-  if ((userChoiceSys == 1) || (userChoiceSys == 2) || (userChoiceSys == 3))
+  if ((userChoiceSys == 1) || (userChoiceSys == 2) || (userChoiceSys == 3)||(userChoiceSys == 6))
     {
       VectorXd approxSol = time_scheme->GetIterateSolution(); // Temps final
       double error = ((approxSol-exactSol).array().abs()).sum();

@@ -31,6 +31,11 @@ PendulumOdeSystem::PendulumOdeSystem(double m, double l){
   _k=0.;
 }
 
+Chute::Chute(double m, double k){
+  _m=m;
+  _k=k;
+}
+
 
 
 // Destructeur par défaut
@@ -101,6 +106,13 @@ void PendulumOdeSystem::BuildF(const double t, const VectorXd & sol)
   _f.resize(2);
   _f[0] =-(g/_l)*(sin(sol[1]))-(_k/(_m*_l*_l))*sol[0];
   _f[1] =sol[0];
+}
+
+void Chute::BuildF(const double t, const VectorXd & sol)
+{
+  double g=9.81;
+  _f.resize(1);
+  _f[0]=-g-((_k/_m)*sol[0]);
 }
 
 

@@ -5,10 +5,10 @@
 
 class OdeSystem
 {
- private:
+private:
   // Écriture du fichier
   std::ofstream _file_out;
- public:
+public:
   // Constructeur par défaut
   OdeSystem();
   // Destructeur par défaut
@@ -22,7 +22,7 @@ class OdeSystem
   // Pour construire _f en fonction de votre système
   virtual void BuildF(const double t, const Eigen::VectorXd & sol)=0;
 
- protected:
+protected:
   // Votre fonction f
   Eigen::VectorXd _f;
 
@@ -31,31 +31,31 @@ class OdeSystem
 
 class FirstExampleOdeSystem : public OdeSystem
 {
- public:
+public:
   void BuildF(const double t, const Eigen::VectorXd & sol); //f(X,t) = X
 };
 
 
 class SecondExampleOdeSystem : public OdeSystem
 {
- public:
+public:
   void BuildF(const double t, const Eigen::VectorXd & sol); //f(X,t) = X
 };
 
 class ThirdExampleOdeSystem : public OdeSystem
 {
- public:
+public:
   void BuildF(const double t, const Eigen::VectorXd & sol); //f(X,t) = X
 };
 
 class LotkaVolterraOdeSystem : public OdeSystem
 {
- private:
+private:
   double _a;
   double _b;
   double _c;
   double _d;
- public:
+public:
   LotkaVolterraOdeSystem(double a, double b, double c, double d);
   void BuildF(const double t, const Eigen::VectorXd & sol); 
 };
@@ -63,14 +63,26 @@ class LotkaVolterraOdeSystem : public OdeSystem
 
 class PendulumOdeSystem : public OdeSystem
 {
- private:
+private:
   double _m;
   double _l;
   double _k;
- public:
+public:
   PendulumOdeSystem(double m, double l);
   PendulumOdeSystem(double m, double l, double k);
   void BuildF(const double t, const Eigen::VectorXd & sol); 
+};
+
+
+
+class Chute : public OdeSystem
+{
+private:
+  double _m;
+  double _k;
+public:
+  Chute(double m, double k);
+  void BuildF(const double t, const Eigen::VectorXd & sol); //f(X,t) = X
 };
 
 
