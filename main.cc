@@ -9,7 +9,7 @@ using namespace Eigen;
 
 int main()
 {
-  double t0(0.), tfinal(10.), dt(0.001); // temps initial, final, pas de temps
+  double t0(0.), tfinal(50.), dt(0.01); // temps initial, final, pas de temps
   int nb_iterations = int(ceil(tfinal/dt)); // Définition du nombre d’itérations
   dt = tfinal / nb_iterations; // Recalcul de dt
   string results; // nom du fichier résultat

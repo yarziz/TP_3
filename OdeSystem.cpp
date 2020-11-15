@@ -73,7 +73,8 @@ void OdeSystem::SaveSolution(const double t, const VectorXd & sol)
   _file_out << t;
   for (int i = 0 ; i < sol.rows() ; ++i)
     {
-      _file_out << " " << sol(i);
+      // _file_out << " " << sol(i);
+      _file_out << " " << abs(sol(i));
     }
   _file_out << std::endl;
 }
@@ -125,7 +126,7 @@ void Chutequa::BuildF(const double t, const VectorXd & sol)
 {
   double g=9.81;
   _f.resize(2);
-  _f[0]=-g-(_k/_m)*sol[0]*sol[0];
+  _f[0]=g-(_k/_m)*pow(sol[0],2.);
   _f[1]=sol[0];
 }
 
